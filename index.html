@@ -10,7 +10,9 @@
   <style>
     @font-face {
       font-family: 'RuneScape-Plain-12';
-      src: url('https://fonts.cdnfonts.com/s/14878/RuneScape-Plain-12.woff') format('woff'),
+      src: url('RuneScape-Plain-12.ttf') format('truetype'),
+           url('RuneScape-Plain-12.tff') format('truetype'),
+           url('https://fonts.cdnfonts.com/s/14878/RuneScape-Plain-12.woff') format('woff'),
            local('RuneScape-Plain-12');
     }
 
@@ -55,10 +57,13 @@
       position: relative;
     }
 
+    /* Top Corner Stats */
     .status-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
       margin-bottom: 12px;
       background: #2e261f;
       padding: 8px 12px;
@@ -69,16 +74,48 @@
       border-bottom-color: #534537;
     }
 
+    .player-tag {
+      color: #00ff00;
+      font-size: 1.15rem;
+      font-weight: bold;
+    }
+
     .badge {
       color: #ff981f;
       font-size: 1.15rem;
-      letter-spacing: 0.5px;
     }
 
     .score-badge {
       color: #00ffff;
       font-size: 1.15rem;
-      letter-spacing: 0.5px;
+    }
+
+    /* Welcome / Name Screen */
+    .start-view {
+      text-align: center;
+      padding: 24px 12px;
+    }
+
+    .name-input {
+      font-family: inherit;
+      background: #2e261f;
+      border: 3px solid #1a1511;
+      border-right-color: #534537;
+      border-bottom-color: #534537;
+      color: #ffff00;
+      padding: 14px 16px;
+      font-size: 1.3rem;
+      width: 80%;
+      max-width: 320px;
+      text-align: center;
+      text-shadow: 2px 2px 0px #000;
+      outline: none;
+      margin: 15px 0 20px 0;
+      border-radius: 4px;
+    }
+
+    .name-input::placeholder {
+      color: #8c7865;
     }
 
     .graphic-container {
@@ -127,7 +164,6 @@
       gap: 10px;
     }
 
-    /* RuneScape Chatbox Choice Buttons */
     .option-btn {
       font-family: inherit;
       background: #504437;
@@ -159,14 +195,12 @@
       transform: translateY(1px);
     }
 
-    /* Selected Correct Feedback: RuneScape Green */
     .option-btn.selected-correct {
       background-color: #15803d !important;
       border-color: #22c55e #14532d #14532d #22c55e !important;
       color: #ffffff !important;
     }
 
-    /* Selected Wrong Feedback: RuneScape Red */
     .option-btn.selected-wrong {
       background-color: #b91c1c !important;
       border-color: #ef4444 #7f1d1d #7f1d1d #ef4444 !important;
@@ -177,6 +211,40 @@
       border: 2px dashed #22c55e !important;
       background-color: #2a3c2a !important;
       color: #86efac !important;
+    }
+
+    /* RuneScape Classic Level-Up Box */
+    .level-up-banner {
+      display: none;
+      background: #2b2219;
+      border: 3px double #facc15;
+      padding: 12px 14px;
+      margin-top: 14px;
+      text-align: center;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { box-shadow: 0 0 6px #ca8a04; }
+      to { box-shadow: 0 0 16px #fde047; }
+    }
+
+    .level-up-title {
+      font-size: 1.2rem;
+      color: #ff0000;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .level-up-text {
+      font-size: 1.25rem;
+      background: #fed7aa;
+      color: #451a03;
+      padding: 4px 8px;
+      border-radius: 2px;
+      display: inline-block;
+      text-shadow: none;
+      font-weight: bold;
     }
 
     .action-btn {
@@ -194,7 +262,6 @@
       border-bottom-color: #4a1200;
       border-radius: 4px;
       cursor: pointer;
-      display: none;
       text-shadow: 2px 2px 0px #000;
     }
 
@@ -227,8 +294,21 @@
   <canvas id="confetti-canvas"></canvas>
 
   <div class="rs-window">
-    <div id="quiz-view">
+    <!-- PAGE 1: NAME INPUT SCREEN -->
+    <div id="start-view" class="start-view">
+      <div style="font-size: 2rem; color: #ffff00; margin-bottom: 8px;">⚔️ CLASS 4A QUEST ⚔️</div>
+      <p style="color: #ff981f; font-size: 1.25rem; margin-bottom: 12px;">Welcome to the Trial of English.</p>
+      <p style="color: #ffffff; font-size: 1.2rem;">What is your name, adventurer?</p>
+      
+      <input type="text" id="player-name-input" class="name-input" placeholder="Type your English name..." maxlength="18" />
+      
+      <button class="action-btn" onclick="startGame()">Begin Quest ➜</button>
+    </div>
+
+    <!-- PAGE 2: GAME SCREEN -->
+    <div id="quiz-view" style="display: none;">
       <div class="status-bar">
+        <span class="player-tag" id="player-display">Player: Guest</span>
         <span class="badge" id="question-tracker">Quest: 1 / 8</span>
         <span class="score-badge" id="score-tracker">XP: 0 / 800</span>
       </div>
@@ -236,25 +316,35 @@
       <div class="graphic-container" id="graphic-box"></div>
 
       <div class="question-box" id="question-text">Loading quest...</div>
+      
       <div class="options-grid" id="options-box"></div>
 
-      <button class="action-btn" id="next-btn" onclick="nextQuestion()">Click here to continue ➜</button>
+      <!-- Level-Up Notification Box -->
+      <div class="level-up-banner" id="level-up-banner">
+        <div class="level-up-title">★ CONGRATULATIONS! ★</div>
+        <div class="level-up-text">Congratulations! You have levelled up!</div>
+      </div>
+
+      <button class="action-btn" id="next-btn" style="display: none;" onclick="nextQuestion()">Click here to continue ➜</button>
     </div>
 
+    <!-- PAGE 3: RESULT SCREEN -->
     <div class="result-view" id="result-view">
-      <div style="font-size: 3rem; margin-bottom: 8px;">⚔️ QUEST COMPLETE! ⚔️</div>
-      <p style="color: #ff981f; font-size: 1.25rem;">Congratulations! You have finished the trial.</p>
+      <div style="font-size: 2.8rem; margin-bottom: 8px;">🏆 QUEST COMPLETE! 🏆</div>
+      <p style="color: #ff981f; font-size: 1.3rem;" id="final-player-name"></p>
       <div style="font-size: 2.2rem; color: #ffff00; margin: 18px 0;" id="final-score-display">0 / 800 XP</div>
       <p id="feedback-message" style="font-size: 1.25rem; color: #00ffff; margin-bottom: 22px;"></p>
-      <button class="action-btn" style="display:block;" onclick="restartQuiz()">Restart Quest 🔄</button>
+      <button class="action-btn" onclick="restartQuiz()">Play Again 🔄</button>
     </div>
   </div>
 
   <script>
+    let playerName = "Adventurer";
+
     const quizData = [
       {
-        question: "1. How ……….. you ……….. to school?",
-        options: ["do…goes", "does…go", "do…go", "does…goes"],
+        question: "1. How ________ you ________ to school?",
+        options: ["do...goes", "does...go", "do...go", "does...goes"],
         correctIndex: 2,
         svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
           <rect width="400" height="160" fill="#1c1813"/>
@@ -274,8 +364,8 @@
         </svg>`
       },
       {
-        question: "2. What ……….. Jimmy ……….. doing in his spare time?",
-        options: ["do…likes", "does…likes", "do…like", "does…like"],
+        question: "2. What ________ Jimmy ________ doing in his spare time?",
+        options: ["do...likes", "does...likes", "do...like", "does...like"],
         correctIndex: 3,
         svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
           <rect width="400" height="160" fill="#1c1813"/>
@@ -290,7 +380,7 @@
       },
       {
         question: "3. Is there a computer room on the fifth floor?",
-        options: ["Yes, there is.", "No, there is.", "Yes, there isn’t.", "No, there isn’t."],
+        options: ["Yes, there is.", "No, there is.", "Yes, there isn't.", "No, there isn't."],
         correctIndex: 3,
         svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
           <rect width="400" height="160" fill="#1c1813"/>
@@ -302,8 +392,8 @@
         </svg>`
       },
       {
-        question: "4. ……….. Class 4A ……….. Music lessons on Fridays?",
-        options: ["do…have", "does…have", "Does…have", "Do…have"],
+        question: "4. ________ Class 4A ________ Music lessons on Fridays?",
+        options: ["do...have", "does...have", "Does...have", "Do...have"],
         correctIndex: 3,
         svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
           <rect width="400" height="160" fill="#1c1813"/>
@@ -317,7 +407,7 @@
       },
       {
         question: "5. Do Class 4A have Music lessons on Fridays?",
-        options: ["Yes, he has.", "Yes, they have.", "No, they don’t.", "No, they doesn’t."],
+        options: ["Yes, he has.", "Yes, they have.", "No, they don't.", "No, they doesn't."],
         correctIndex: 2,
         svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
           <rect width="400" height="160" fill="#1c1813"/>
@@ -330,8 +420,8 @@
         </svg>`
       },
       {
-        question: "6. ……….. Mr Tai ……….. handsome?",
-        options: ["Is…X", "Does…X", "Is…do", "Does…be"],
+        question: "6. ________ Mr Tai ________ handsome?",
+        options: ["Is... (no verb)", "Does... (no verb)", "Is...do", "Does...be"],
         correctIndex: 0,
         svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
           <rect width="400" height="160" fill="#1c1813"/>
@@ -349,7 +439,7 @@
       },
       {
         question: "7. Is Mr. Tai handsome?",
-        options: ["Yes, he has.", "Yes, he does.", "Yes, he isn’t.", "Yes, he is."],
+        options: ["Yes, he has.", "Yes, he does.", "Yes, he isn't.", "Yes, he is."],
         correctIndex: 3,
         svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
           <rect width="400" height="160" fill="#1c1813"/>
@@ -362,7 +452,7 @@
         </svg>`
       },
       {
-        question: "8. ………… there toilets on the ground floor?",
+        question: "8. ________ there toilets on the ground floor?",
         options: ["Do", "Are", "Is", "Does"],
         correctIndex: 1,
         svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
@@ -383,20 +473,42 @@
     const POINTS_PER_QUESTION = 100;
     const TOTAL_POSSIBLE = quizData.length * POINTS_PER_QUESTION;
 
+    const startView = document.getElementById("start-view");
+    const quizView = document.getElementById("quiz-view");
+    const resultView = document.getElementById("result-view");
+
+    const playerNameInput = document.getElementById("player-name-input");
+    const playerDisplay = document.getElementById("player-display");
+    const finalPlayerName = document.getElementById("final-player-name");
+
     const qText = document.getElementById("question-text");
     const graphicBox = document.getElementById("graphic-box");
     const optBox = document.getElementById("options-box");
     const qTracker = document.getElementById("question-tracker");
     const sTracker = document.getElementById("score-tracker");
+    const levelUpBanner = document.getElementById("level-up-banner");
     const nextBtn = document.getElementById("next-btn");
-    const quizView = document.getElementById("quiz-view");
-    const resultView = document.getElementById("result-view");
     const finalScoreDisplay = document.getElementById("final-score-display");
     const feedbackMsg = document.getElementById("feedback-message");
 
     const prefixes = ['a', 'b', 'c', 'd'];
 
-    /* Offline Confetti Engine */
+    function startGame() {
+      const enteredName = playerNameInput.value.trim();
+      playerName = enteredName !== "" ? enteredName : "Player";
+
+      playerDisplay.textContent = `Player: ${playerName}`;
+      startView.style.display = "none";
+      quizView.style.display = "block";
+      loadQuestion();
+    }
+
+    playerNameInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        startGame();
+      }
+    });
+
     const canvas = document.getElementById('confetti-canvas');
     const ctx = canvas.getContext('2d');
     let confettiPieces = [];
@@ -436,7 +548,7 @@
       confettiPieces.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.35; // gravity
+        p.vy += 0.35;
         p.rotation += p.rotationSpeed;
         p.opacity -= 0.012;
 
@@ -463,6 +575,7 @@
 
     function loadQuestion() {
       nextBtn.style.display = "none";
+      levelUpBanner.style.display = "none";
       const q = quizData[currentIndex];
 
       qTracker.textContent = `Quest: ${currentIndex + 1} / ${quizData.length}`;
@@ -491,6 +604,7 @@
         score += POINTS_PER_QUESTION;
         sTracker.textContent = `XP: ${score} / ${TOTAL_POSSIBLE}`;
         triggerConfetti();
+        levelUpBanner.style.display = "block";
       } else {
         buttons[selectedIndex].classList.add("selected-wrong");
         buttons[q.correctIndex].classList.add("reveal-answer");
@@ -511,15 +625,16 @@
     function showResults() {
       quizView.style.display = "none";
       resultView.style.display = "block";
+      finalPlayerName.textContent = `Hero: ${playerName}`;
       finalScoreDisplay.textContent = `${score} / ${TOTAL_POSSIBLE} XP`;
 
       if (score === 800) {
-        feedbackMsg.textContent = "🏆 Master! Maximum level reached!";
+        feedbackMsg.textContent = "🏆 Level 99 Master! A legendary performance!";
         triggerConfetti();
       } else if (score >= 600) {
-        feedbackMsg.textContent = "⚔️ Well fought! You have completed the trial!";
+        feedbackMsg.textContent = "⚔️ Well fought! You have levelled up greatly!";
       } else {
-        feedbackMsg.textContent = "🛡️ No worries! You did well! Practice more!";
+        feedbackMsg.textContent = "🛡️ Return to Lumbridge and train again!";
       }
     }
 
@@ -527,11 +642,9 @@
       currentIndex = 0;
       score = 0;
       resultView.style.display = "none";
-      quizView.style.display = "block";
-      loadQuestion();
+      startView.style.display = "block";
+      playerNameInput.value = "";
     }
-
-    loadQuestion();
   </script>
 </body>
 </html>
