@@ -5,72 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Class 4A English Quest</title>
+  <title>Class 4A: Quest for Knowledge</title>
 
   <style>
+    @font-face {
+      font-family: 'RuneScape-Plain-12';
+      src: url('https://fonts.cdnfonts.com/s/14878/RuneScape-Plain-12.woff') format('woff'),
+           local('RuneScape-Plain-12');
+    }
+
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      image-rendering: pixelated;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
+      font-family: 'RuneScape-Plain-12', 'Press Start 2P', monospace, sans-serif;
+      background-color: #12100e;
+      background-image: 
+        radial-gradient(#2b241b 15%, transparent 16%), 
+        radial-gradient(#1e1812 15%, transparent 16%);
+      background-size: 20px 20px;
+      background-position: 0 0, 10px 10px;
       margin: 0;
       padding: 16px;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      color: #ffff00;
+      text-shadow: 2px 2px 0px #000000;
     }
 
-    .quiz-card {
-      background: #ffffff;
+    /* RuneScape Stone Dialogue Frame */
+    .rs-window {
+      background: #493f35;
       width: 100%;
-      max-width: 620px;
-      border-radius: 24px;
-      padding: 24px;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
-      text-align: center;
+      max-width: 640px;
+      border: 4px solid #2b2219;
+      box-shadow: 
+        inset 2px 2px 0px #6d5e4f,
+        inset -2px -2px 0px #221a13,
+        0 0 0 3px #534537,
+        0 12px 30px rgba(0, 0, 0, 0.85);
+      border-radius: 4px;
+      padding: 18px;
+      position: relative;
     }
 
     .status-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      background: #2e261f;
+      padding: 8px 12px;
+      border: 2px solid #1a1511;
+      border-top-color: #1a1511;
+      border-left-color: #1a1511;
+      border-right-color: #534537;
+      border-bottom-color: #534537;
     }
 
     .badge {
-      background: #e0f2fe;
-      color: #0284c7;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: 700;
-      font-size: 1rem;
+      color: #ff981f;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
     }
 
     .score-badge {
-      background: #fef3c7;
-      color: #b45309;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-weight: 800;
-      font-size: 1.05rem;
+      color: #00ffff;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
     }
 
     .graphic-container {
       width: 100%;
-      height: 170px;
-      border-radius: 18px;
+      height: 160px;
+      border-radius: 4px;
       overflow: hidden;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f8fafc;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+      background: #1c1813;
+      border: 3px solid #33281d;
+      box-shadow: inset 0 0 10px #000000;
     }
 
     .graphic-container svg {
@@ -79,110 +101,152 @@
       display: block;
     }
 
-    .question {
+    .question-box {
+      background: #382e24;
+      border: 2px solid #231b14;
+      border-top-color: #231b14;
+      border-left-color: #231b14;
+      border-right-color: #554434;
+      border-bottom-color: #554434;
+      padding: 14px 10px;
+      margin-bottom: 14px;
       font-size: 1.35rem;
-      color: #1e293b;
-      margin-bottom: 18px;
+      color: #ffffff;
       line-height: 1.35;
-      font-weight: 700;
-      min-height: 52px;
+      text-align: center;
+      min-height: 54px;
       display: flex;
       align-items: center;
       justify-content: center;
+      text-shadow: 2px 2px 0px #000000;
     }
 
     .options-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 10px;
     }
 
+    /* RuneScape Chatbox Choice Buttons */
     .option-btn {
-      background: #f8fafc;
-      border: 2px solid #cbd5e1;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-size: 1.15rem;
-      color: #334155;
-      font-weight: 600;
+      font-family: inherit;
+      background: #504437;
+      border: 3px solid #73614e;
+      border-top-color: #73614e;
+      border-left-color: #73614e;
+      border-right-color: #231a12;
+      border-bottom-color: #231a12;
+      border-radius: 4px;
+      padding: 13px 18px;
+      font-size: 1.25rem;
+      color: #fffe9e;
       cursor: pointer;
       text-align: left;
-      transition: transform 0.1s ease, background-color 0.2s ease, border-color 0.2s ease;
+      text-shadow: 2px 2px 0px #000000;
+      transition: background-color 0.1s ease;
+    }
+
+    .option-btn:hover:not([disabled]) {
+      background: #5c4f40;
+      color: #ffffff;
     }
 
     .option-btn:active:not([disabled]) {
-      transform: scale(0.98);
-      background: #e2e8f0;
+      border-top-color: #231a12;
+      border-left-color: #231a12;
+      border-right-color: #73614e;
+      border-bottom-color: #73614e;
+      transform: translateY(1px);
     }
 
-    /* Green for chosen correct answer */
+    /* Selected Correct Feedback: RuneScape Green */
     .option-btn.selected-correct {
-      background-color: #22c55e !important;
-      border-color: #16a34a !important;
+      background-color: #15803d !important;
+      border-color: #22c55e #14532d #14532d #22c55e !important;
       color: #ffffff !important;
     }
 
-    /* Red for chosen wrong answer */
+    /* Selected Wrong Feedback: RuneScape Red */
     .option-btn.selected-wrong {
-      background-color: #ef4444 !important;
-      border-color: #dc2626 !important;
+      background-color: #b91c1c !important;
+      border-color: #ef4444 #7f1d1d #7f1d1d #ef4444 !important;
       color: #ffffff !important;
     }
 
-    /* Gentle indicator for the correct answer if the student made a mistake */
     .option-btn.reveal-answer {
       border: 2px dashed #22c55e !important;
-      background-color: #f0fdf4 !important;
-      color: #15803d !important;
+      background-color: #2a3c2a !important;
+      color: #86efac !important;
     }
 
-    .next-btn {
-      margin-top: 20px;
+    .action-btn {
+      font-family: inherit;
+      margin-top: 16px;
       width: 100%;
-      padding: 16px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: white;
-      background: #4f46e5;
-      border: none;
-      border-radius: 14px;
+      padding: 14px;
+      font-size: 1.3rem;
+      color: #ffffff;
+      background: #8b2500;
+      border: 3px solid #b23a0d;
+      border-top-color: #b23a0d;
+      border-left-color: #b23a0d;
+      border-right-color: #4a1200;
+      border-bottom-color: #4a1200;
+      border-radius: 4px;
       cursor: pointer;
       display: none;
+      text-shadow: 2px 2px 0px #000;
     }
 
-    .next-btn:active {
-      background: #4338ca;
+    .action-btn:active {
+      border-top-color: #4a1200;
+      border-left-color: #4a1200;
+      border-right-color: #b23a0d;
+      border-bottom-color: #b23a0d;
     }
 
     .result-view {
       display: none;
-      padding: 20px 0;
+      text-align: center;
+      padding: 15px 0;
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
     }
   </style>
 </head>
 <body>
 
-  <div class="quiz-card">
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="rs-window">
     <div id="quiz-view">
       <div class="status-bar">
-        <span class="badge" id="question-tracker">Question 1 / 8</span>
-        <span class="score-badge" id="score-tracker">Score: 0 / 800</span>
+        <span class="badge" id="question-tracker">Quest: 1 / 8</span>
+        <span class="score-badge" id="score-tracker">XP: 0 / 800</span>
       </div>
 
       <div class="graphic-container" id="graphic-box"></div>
 
-      <div class="question" id="question-text">Loading question...</div>
+      <div class="question-box" id="question-text">Loading quest...</div>
       <div class="options-grid" id="options-box"></div>
 
-      <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question ➜</button>
+      <button class="action-btn" id="next-btn" onclick="nextQuestion()">Click here to continue ➜</button>
     </div>
 
     <div class="result-view" id="result-view">
-      <div style="font-size: 4rem; margin-bottom: 10px;">🏆</div>
-      <h1 style="font-size: 2.2rem; margin-bottom: 8px; color: #1e293b;">Quiz Finished!</h1>
-      <div style="font-size: 2.6rem; font-weight: 800; color: #4f46e5; margin: 15px 0;" id="final-score-display">0 / 800</div>
-      <p id="feedback-message" style="font-size: 1.2rem; font-weight: 600; color: #475569; margin-bottom: 24px;"></p>
-      <button class="next-btn" style="display:block;" onclick="restartQuiz()">Play Again 🔄</button>
+      <div style="font-size: 3rem; margin-bottom: 8px;">⚔️ QUEST COMPLETE! ⚔️</div>
+      <p style="color: #ff981f; font-size: 1.25rem;">Congratulations! You have finished the trial.</p>
+      <div style="font-size: 2.2rem; color: #ffff00; margin: 18px 0;" id="final-score-display">0 / 800 XP</div>
+      <p id="feedback-message" style="font-size: 1.25rem; color: #00ffff; margin-bottom: 22px;"></p>
+      <button class="action-btn" style="display:block;" onclick="restartQuiz()">Restart Quest 🔄</button>
     </div>
   </div>
 
@@ -190,141 +254,126 @@
     const quizData = [
       {
         question: "1. How ……….. you ……….. to school?",
-        options: ["do...does", "does...do", "do…do", "does…does"],
+        options: ["do…goes", "does…go", "do…go", "does…goes"],
         correctIndex: 2,
-        svg: `<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="170" fill="#e0f2fe"/>
-          <rect y="125" width="400" height="45" fill="#64748b"/>
-          <line x1="0" y1="147" x2="400" y2="147" stroke="#ffffff" stroke-width="4" stroke-dasharray="25,15"/>
-          <rect x="70" y="45" width="240" height="75" rx="14" fill="#fbbf24"/>
-          <rect x="270" y="65" width="45" height="55" rx="6" fill="#f59e0b"/>
-          <rect x="90" y="55" width="45" height="30" rx="5" fill="#e0f2fe"/>
-          <rect x="145" y="55" width="45" height="30" rx="5" fill="#e0f2fe"/>
-          <rect x="200" y="55" width="45" height="30" rx="5" fill="#e0f2fe"/>
-          <rect x="260" y="55" width="35" height="30" rx="5" fill="#e0f2fe"/>
-          <rect x="95" y="93" width="180" height="6" fill="#d97706"/>
-          <text x="145" y="112" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#78350f">SCHOOL BUS</text>
-          <circle cx="120" cy="122" r="18" fill="#1e293b"/>
-          <circle cx="120" cy="122" r="8" fill="#cbd5e1"/>
-          <circle cx="265" cy="122" r="18" fill="#1e293b"/>
-          <circle cx="265" cy="122" r="8" fill="#cbd5e1"/>
+        svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="160" fill="#1c1813"/>
+          <rect y="120" width="400" height="40" fill="#382e24"/>
+          <line x1="0" y1="138" x2="400" y2="138" stroke="#ff981f" stroke-width="3" stroke-dasharray="16,12"/>
+          <rect x="75" y="40" width="240" height="72" rx="6" fill="#f59e0b" stroke="#78350f" stroke-width="3"/>
+          <rect x="265" y="58" width="45" height="52" fill="#d97706"/>
+          <rect x="92" y="48" width="42" height="28" fill="#1e1812" stroke="#451a03" stroke-width="2"/>
+          <rect x="146" y="48" width="42" height="28" fill="#1e1812" stroke="#451a03" stroke-width="2"/>
+          <rect x="200" y="48" width="42" height="28" fill="#1e1812" stroke="#451a03" stroke-width="2"/>
+          <rect x="254" y="48" width="34" height="28" fill="#1e1812" stroke="#451a03" stroke-width="2"/>
+          <text x="145" y="102" font-family="'RuneScape-Plain-12', monospace" font-size="14" font-weight="bold" fill="#000000">SCHOOL BUS</text>
+          <circle cx="120" cy="116" r="16" fill="#000000"/>
+          <circle cx="120" cy="116" r="7" fill="#6d5e4f"/>
+          <circle cx="265" cy="116" r="16" fill="#000000"/>
+          <circle cx="265" cy="116" r="7" fill="#6d5e4f"/>
         </svg>`
       },
       {
         question: "2. What ……….. Jimmy ……….. doing in his spare time?",
         options: ["do…likes", "does…likes", "do…like", "does…like"],
         correctIndex: 3,
-        svg: `<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="170" fill="#ede9fe"/>
-          <path d="M120 70 C100 70, 70 85, 75 125 C80 145, 110 145, 130 120 L150 100 L250 100 L270 120 C290 145, 320 145, 325 125 C330 85, 300 70, 280 70 Z" fill="#6366f1"/>
-          <rect x="105" y="85" width="10" height="26" rx="3" fill="#1e1b4b"/>
-          <rect x="97" y="93" width="26" height="10" rx="3" fill="#1e1b4b"/>
-          <circle cx="280" cy="90" r="6" fill="#ec4899"/>
-          <circle cx="295" cy="100" r="6" fill="#10b981"/>
-          <circle cx="265" cy="100" r="6" fill="#3b82f6"/>
-          <circle cx="280" cy="110" r="6" fill="#f59e0b"/>
-          <rect x="180" y="93" width="16" height="6" rx="2" fill="#4338ca"/>
-          <rect x="204" y="93" width="16" height="6" rx="2" fill="#4338ca"/>
+        svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="160" fill="#1c1813"/>
+          <path d="M120 60 C100 60, 70 75, 75 115 C80 135, 110 135, 130 110 L150 90 L250 90 L270 110 C290 135, 320 135, 325 115 C330 75, 300 60, 280 60 Z" fill="#4f46e5" stroke="#1e1b4b" stroke-width="4"/>
+          <rect x="105" y="75" width="10" height="26" fill="#000000"/>
+          <rect x="97" y="83" width="26" height="10" fill="#000000"/>
+          <circle cx="280" cy="80" r="6" fill="#ef4444"/>
+          <circle cx="295" cy="90" r="6" fill="#22c55e"/>
+          <circle cx="265" cy="90" r="6" fill="#3b82f6"/>
+          <circle cx="280" cy="100" r="6" fill="#facc15"/>
         </svg>`
       },
       {
         question: "3. Is there a computer room on the fifth floor?",
         options: ["Yes, there is.", "No, there is.", "Yes, there isn’t.", "No, there isn’t."],
         correctIndex: 3,
-        svg: `<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="170" fill="#f1f5f9"/>
-          <rect x="110" y="25" width="180" height="105" rx="10" fill="#0f172a"/>
-          <rect x="120" y="35" width="160" height="85" rx="6" fill="#38bdf8"/>
-          <rect x="135" y="45" width="60" height="8" rx="4" fill="#ffffff" opacity="0.8"/>
-          <rect x="135" y="60" width="110" height="6" rx="3" fill="#ffffff" opacity="0.6"/>
-          <rect x="135" y="73" width="85" height="6" rx="3" fill="#ffffff" opacity="0.6"/>
-          <circle cx="240" cy="85" r="14" fill="#f43f5e"/>
-          <rect x="185" y="130" width="30" height="20" fill="#64748b"/>
-          <rect x="160" y="148" width="80" height="8" rx="4" fill="#94a3b8"/>
+        svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="160" fill="#1c1813"/>
+          <rect x="110" y="20" width="180" height="100" fill="#000000" stroke="#534537" stroke-width="4"/>
+          <rect x="122" y="30" width="156" height="80" fill="#00ffff" opacity="0.85"/>
+          <text x="200" y="75" font-family="'RuneScape-Plain-12', monospace" font-size="16" fill="#000000" text-anchor="middle" font-weight="bold">404: NOT FOUND</text>
+          <rect x="185" y="122" width="30" height="18" fill="#534537"/>
+          <rect x="155" y="140" width="90" height="8" fill="#382e24"/>
         </svg>`
       },
       {
         question: "4. ……….. Class 4A ……….. Music lessons on Fridays?",
         options: ["do…have", "does…have", "Does…have", "Do…have"],
         correctIndex: 3,
-        svg: `<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="170" fill="#fef3c7"/>
-          <path d="M120 40 L220 25 L220 50 L120 65 Z" fill="#d97706"/>
-          <rect x="120" y="40" width="8" height="75" fill="#d97706"/>
-          <rect x="212" y="25" width="8" height="75" fill="#d97706"/>
-          <ellipse cx="110" cy="115" rx="18" ry="13" fill="#d97706" transform="rotate(-20,110,115)"/>
-          <ellipse cx="202" cy="100" rx="18" ry="13" fill="#d97706" transform="rotate(-20,202,100)"/>
-          <path d="M260 70 Q 280 50, 300 70 T 320 90" fill="none" stroke="#f43f5e" stroke-width="4"/>
-          <circle cx="270" cy="120" r="10" fill="#8b5cf6"/>
-          <rect x="278" y="80" width="4" height="40" fill="#8b5cf6"/>
-          <path d="M282 80 C 295 85, 295 95, 290 100" fill="none" stroke="#8b5cf6" stroke-width="4"/>
+        svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="160" fill="#1c1813"/>
+          <path d="M125 35 L225 20 L225 45 L125 60 Z" fill="#ff981f"/>
+          <rect x="125" y="35" width="8" height="75" fill="#ff981f"/>
+          <rect x="217" y="20" width="8" height="75" fill="#ff981f"/>
+          <ellipse cx="115" cy="110" rx="18" ry="12" fill="#ff981f" transform="rotate(-20,115,110)"/>
+          <ellipse cx="207" cy="95" rx="18" ry="12" fill="#ff981f" transform="rotate(-20,207,95)"/>
+          <text x="290" y="85" font-family="'RuneScape-Plain-12', monospace" font-size="44" fill="#ffff00">♪ ♫</text>
         </svg>`
       },
       {
         question: "5. Do Class 4A have Music lessons on Fridays?",
         options: ["Yes, he has.", "Yes, they have.", "No, they don’t.", "No, they doesn’t."],
         correctIndex: 2,
-        svg: `<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="170" fill="#fce7f3"/>
-          <rect x="130" y="25" width="140" height="120" rx="12" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/>
-          <rect x="130" y="25" width="140" height="35" rx="10" fill="#f43f5e"/>
-          <text x="155" y="48" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#ffffff">FRIDAY</text>
-          <line x1="160" y1="18" x2="160" y2="30" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
-          <line x1="240" y1="18" x2="240" y2="30" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
-          <circle cx="200" cy="100" r="24" fill="#fee2e2"/>
-          <line x1="185" y1="85" x2="215" y2="115" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
-          <line x1="215" y1="85" x2="185" y2="115" stroke="#ef4444" stroke-width="6" stroke-linecap="round"/>
+        svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="160" fill="#1c1813"/>
+          <rect x="135" y="20" width="130" height="115" fill="#2e261f" stroke="#534537" stroke-width="3"/>
+          <rect x="135" y="20" width="130" height="32" fill="#8b2500"/>
+          <text x="200" y="42" font-family="'RuneScape-Plain-12', monospace" font-size="16" fill="#ffff00" text-anchor="middle">FRIDAY</text>
+          <circle cx="200" cy="88" r="24" fill="#1a1511" stroke="#dc2626" stroke-width="3"/>
+          <line x1="186" y1="74" x2="214" y2="102" stroke="#dc2626" stroke-width="5" stroke-linecap="square"/>
+          <line x1="214" y1="74" x2="186" y2="102" stroke="#dc2626" stroke-width="5" stroke-linecap="square"/>
         </svg>`
       },
       {
         question: "6. ……….. Mr Tai ……….. handsome?",
         options: ["Is…X", "Does…X", "Is…do", "Does…be"],
         correctIndex: 0,
-        svg: `<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="170" fill="#dbeafe"/>
-          <rect x="155" y="125" width="90" height="45" rx="10" fill="#2563eb"/>
-          <polygon points="200,135 190,170 210,170" fill="#dc2626"/>
-          <polygon points="185,125 200,140 215,125" fill="#ffffff"/>
-          <ellipse cx="200" cy="85" rx="35" ry="42" fill="#fed7aa"/>
-          <path d="M165 75 Q 200 35 235 70 Q 215 50 185 55 Z" fill="#1e293b"/>
-          <circle cx="187" cy="83" r="10" fill="none" stroke="#1e293b" stroke-width="3"/>
-          <circle cx="213" cy="83" r="10" fill="none" stroke="#1e293b" stroke-width="3"/>
-          <line x1="197" y1="83" x2="203" y2="83" stroke="#1e293b" stroke-width="3"/>
-          <path d="M190 105 Q 200 115 210 105" fill="none" stroke="#c2410c" stroke-width="3" stroke-linecap="round"/>
-          <polygon points="260,40 265,52 277,52 267,60 271,72 260,64 249,72 253,60 243,52 255,52" fill="#fbbf24"/>
-          <polygon points="135,55 138,64 148,64 140,70 143,80 135,74 127,80 130,70 122,64 132,64" fill="#fbbf24"/>
+        svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="160" fill="#1c1813"/>
+          <circle cx="200" cy="72" r="38" fill="#fed7aa" stroke="#7c2d12" stroke-width="3"/>
+          <path d="M165 60 Q 200 20 235 55 Q 210 40 180 45 Z" fill="#3b2514"/>
+          <circle cx="187" cy="70" r="9" fill="none" stroke="#000000" stroke-width="3"/>
+          <circle cx="213" cy="70" r="9" fill="none" stroke="#000000" stroke-width="3"/>
+          <line x1="196" y1="70" x2="204" y2="70" stroke="#000000" stroke-width="3"/>
+          <path d="M190 92 Q 200 102 210 92" fill="none" stroke="#7c2d12" stroke-width="3"/>
+          <rect x="160" y="115" width="80" height="45" fill="#1e3a8a" stroke="#172554" stroke-width="3"/>
+          <polygon points="200,120 192,155 208,155" fill="#dc2626"/>
+          <text x="80" y="85" font-family="'RuneScape-Plain-12', monospace" font-size="28" fill="#ffff00">★</text>
+          <text x="310" y="85" font-family="'RuneScape-Plain-12', monospace" font-size="28" fill="#ffff00">★</text>
         </svg>`
       },
       {
         question: "7. Is Mr. Tai handsome?",
         options: ["Yes, he has.", "Yes, he does.", "Yes, he isn’t.", "Yes, he is."],
         correctIndex: 3,
-        svg: `<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="170" fill="#fef08a"/>
-          <circle cx="200" cy="85" r="55" fill="#fbbf24"/>
-          <rect x="165" y="70" width="30" height="16" rx="5" fill="#1e293b"/>
-          <rect x="205" y="70" width="30" height="16" rx="5" fill="#1e293b"/>
-          <line x1="195" y1="78" x2="205" y2="78" stroke="#1e293b" stroke-width="4"/>
-          <path d="M175 105 Q 200 130 225 105" fill="#ffffff" stroke="#1e293b" stroke-width="3"/>
-          <polygon points="100,50 104,62 116,62 106,70 110,82 100,74 90,82 94,70 84,62 96,62" fill="#f59e0b"/>
-          <polygon points="300,50 304,62 316,62 306,70 310,82 300,74 290,82 294,70 284,62 296,62" fill="#f59e0b"/>
-          <text x="200" y="158" font-family="Arial, sans-serif" font-size="14" font-weight="900" fill="#b45309" text-anchor="middle">100% HANDSOME ⭐</text>
+        svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="160" fill="#1c1813"/>
+          <circle cx="200" cy="70" r="48" fill="#facc15" stroke="#854d0e" stroke-width="4"/>
+          <rect x="172" y="58" width="22" height="12" rx="3" fill="#000000"/>
+          <rect x="206" y="58" width="22" height="12" rx="3" fill="#000000"/>
+          <line x1="194" y1="64" x2="206" y2="64" stroke="#000000" stroke-width="3"/>
+          <path d="M180 88 Q 200 110 220 88" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+          <text x="200" y="145" font-family="'RuneScape-Plain-12', monospace" font-size="16" font-weight="bold" fill="#ff981f" text-anchor="middle">LVL 99 HANDSOME</text>
         </svg>`
       },
       {
         question: "8. ………… there toilets on the ground floor?",
         options: ["Do", "Are", "Is", "Does"],
         correctIndex: 1,
-        svg: `<svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="170" fill="#e0e7ff"/>
-          <rect x="135" y="20" width="130" height="130" rx="16" fill="#3b82f6"/>
-          <text x="200" y="52" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#ffffff" text-anchor="middle">WC / RESTROOM</text>
-          <circle cx="175" cy="72" r="7" fill="#ffffff"/>
-          <rect x="169" y="82" width="12" height="24" rx="3" fill="#ffffff"/>
-          <circle cx="225" cy="72" r="7" fill="#ffffff"/>
-          <polygon points="225,82 214,106 236,106" fill="#ffffff"/>
-          <rect x="145" y="118" width="110" height="16" rx="4" fill="#1d4ed8"/>
-          <text x="200" y="130" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">GROUND FLOOR (G/F)</text>
+        svg: `<svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="160" fill="#1c1813"/>
+          <rect x="135" y="15" width="130" height="130" rx="4" fill="#1d4ed8" stroke="#1e40af" stroke-width="3"/>
+          <text x="200" y="44" font-family="'RuneScape-Plain-12', monospace" font-size="14" fill="#ffffff" text-anchor="middle">RESTROOM</text>
+          <circle cx="178" cy="65" r="7" fill="#ffffff"/>
+          <rect x="172" y="75" width="12" height="24" fill="#ffffff"/>
+          <circle cx="222" cy="65" r="7" fill="#ffffff"/>
+          <polygon points="222,75 211,99 233,99" fill="#ffffff"/>
+          <text x="200" y="125" font-family="'RuneScape-Plain-12', monospace" font-size="13" fill="#facc15" text-anchor="middle">G / F</text>
         </svg>`
       }
     ];
@@ -347,12 +396,77 @@
 
     const prefixes = ['a', 'b', 'c', 'd'];
 
+    /* Offline Confetti Engine */
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let confettiPieces = [];
+    let animationFrameId = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function triggerConfetti() {
+      confettiPieces = [];
+      const colors = ['#ffff00', '#ff981f', '#00ffff', '#22c55e', '#ef4444', '#ffffff'];
+      for (let i = 0; i < 90; i++) {
+        confettiPieces.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          w: Math.random() * 9 + 5,
+          h: Math.random() * 9 + 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 16,
+          vy: (Math.random() - 0.7) * 16,
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 10,
+          opacity: 1
+        });
+      }
+      if (!animationFrameId) renderConfetti();
+    }
+
+    function renderConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let activePieces = 0;
+
+      confettiPieces.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.35; // gravity
+        p.rotation += p.rotationSpeed;
+        p.opacity -= 0.012;
+
+        if (p.opacity > 0) {
+          activePieces++;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.globalAlpha = p.opacity;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+          ctx.restore();
+        }
+      });
+
+      if (activePieces > 0) {
+        animationFrameId = requestAnimationFrame(renderConfetti);
+      } else {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
     function loadQuestion() {
       nextBtn.style.display = "none";
       const q = quizData[currentIndex];
 
-      qTracker.textContent = `Question ${currentIndex + 1} / ${quizData.length}`;
-      sTracker.textContent = `Score: ${score} / ${TOTAL_POSSIBLE}`;
+      qTracker.textContent = `Quest: ${currentIndex + 1} / ${quizData.length}`;
+      sTracker.textContent = `XP: ${score} / ${TOTAL_POSSIBLE}`;
       qText.textContent = q.question;
       graphicBox.innerHTML = q.svg;
       optBox.innerHTML = "";
@@ -375,7 +489,8 @@
       if (selectedIndex === q.correctIndex) {
         buttons[selectedIndex].classList.add("selected-correct");
         score += POINTS_PER_QUESTION;
-        sTracker.textContent = `Score: ${score} / ${TOTAL_POSSIBLE}`;
+        sTracker.textContent = `XP: ${score} / ${TOTAL_POSSIBLE}`;
+        triggerConfetti();
       } else {
         buttons[selectedIndex].classList.add("selected-wrong");
         buttons[q.correctIndex].classList.add("reveal-answer");
@@ -396,14 +511,15 @@
     function showResults() {
       quizView.style.display = "none";
       resultView.style.display = "block";
-      finalScoreDisplay.textContent = `${score} / ${TOTAL_POSSIBLE}`;
+      finalScoreDisplay.textContent = `${score} / ${TOTAL_POSSIBLE} XP`;
 
       if (score === 800) {
-        feedbackMsg.textContent = "🌟 Perfect 800! Outstanding work!";
+        feedbackMsg.textContent = "🏆 Master! Maximum level reached!";
+        triggerConfetti();
       } else if (score >= 600) {
-        feedbackMsg.textContent = "👏 Great job! High score achieved!";
+        feedbackMsg.textContent = "⚔️ Well fought! You have completed the trial!";
       } else {
-        feedbackMsg.textContent = "💪 Keep practicing! You can do it!";
+        feedbackMsg.textContent = "🛡️ No worries! You did well! Practice more!";
       }
     }
 
